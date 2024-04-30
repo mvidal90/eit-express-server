@@ -5,16 +5,16 @@ const UserSchema = new Schema({
     userName: {
         type: String,
         unique: true,
-        require: true
+        required: true,
     },
     email: {
         type: String,
         unique: true,
-        require: true
+        required: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     birthDate: {
         type: Date
@@ -25,11 +25,11 @@ const UserSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        require: true
+        required: true
     },
     deletedAt: {
         type: Date,
-        require: false
+        required: false
     }
 })
 
