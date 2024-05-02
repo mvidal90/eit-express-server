@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 export const dbConection = async () => {
     try {
         const mongoDB = await mongoose.connect(
-            "mongodb+srv://marcosvidal:lNsbj4iHHIFKQR2F@eit.p4nifzy.mongodb.net/express-server-1",
+           process.env.DB_URL_CONNECTION,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
