@@ -1,5 +1,7 @@
-import { User } from "../models/User.js";
 import * as bcrypt from 'bcrypt';
+
+import { User } from "../models/User.js";
+import { generateJWT } from "../../util/jwt.js";
 
 export const createUser = async (req, res) => {
     const {body} = req;
@@ -11,9 +13,12 @@ export const createUser = async (req, res) => {
             password: hashPassword
         })
 
+        const jwt = generateJWT(user._id)
+
         res.json({
             ok: true,
             user,
+            jwt,
             msg: "Usuario creado correctamente."
         })
     } catch (error) {

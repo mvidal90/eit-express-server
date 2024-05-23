@@ -23,14 +23,10 @@ const UserSchema = new Schema({
         type: [String],
         default: []
     },
-    createdAt: {
-        type: Date,
-        required: true
-    },
     deletedAt: {
         type: Date,
         required: false
     }
-})
+}, {timestamps: true})
 
 export const User = model("User", UserSchema)
