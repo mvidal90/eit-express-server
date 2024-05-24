@@ -34,7 +34,7 @@ export const createUser = async (req, res) => {
 export const listUsers = async (req, res) => {
 
     const { page } = req.query;
-    const docsPerPage = 3;
+    const docsPerPage = 10;
     const skip = (parseInt(page) - 1) * docsPerPage
 
     try {
@@ -121,6 +121,52 @@ export const deleteUser = async (req, res) => {
             msg: "El usuario se elimino correctamente"
         })
 
+    } catch (error) {
+        console.log(error)
+        res.status(500)
+            .json({
+                ok: false,
+                msg: "Ha habido un error en el servidor."
+            })
+    }
+}
+
+export const login = async (req, res) => {
+    const {userName, password: pass} = req.body;
+    try {
+
+        const foundUser = await User.findOne({
+            userName,
+            deletedAt: { $in: [null, undefined]}
+        })
+
+        if (!foundUser) {
+            res.status(404)
+            .json({
+                msg: "Usuario no encontrado."
+            })
+        }
+
+        const validatePassword = bcrypt.compareSync(pass, foundUser._doc?.password)
+
+        if (!validatePassword) {
+            res.status(403)
+            .json({
+                msg: "La contraseña es incorrecta."
+            })
+        }
+
+        const {password, ...restUser} = foundUser._doc;
+
+        const jwt = generateJWT(restUser._id)
+
+        res.json({
+            ok: true,
+            user: restUser,
+            jwt,
+            msg: "El usuario se loageado correctamente"
+        })
+        
     } catch (error) {
         console.log(error)
         res.status(500)
