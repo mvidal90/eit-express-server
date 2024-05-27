@@ -176,3 +176,13 @@ export const login = async (req, res) => {
             })
     }
 }
+
+export const revalidateSession = (req, res) => {
+    const jwt = generateJWT(req.id)
+    res.json({
+        ok: true,
+        user: req.user,
+        jwt,
+        msg: "El usuario se loageado correctamente"
+    })
+}

@@ -16,12 +16,13 @@ export const validateJWT = async (req, res, next) => {
             deletedAt: { $in: [null, undefined]}
         })
 
-        if (!findUser) {
+        if (!findUser.length) {
             return res.status(404).json({
                 msg: "usuario no encontrado.",
             })
         }
         req.id = id;
+        req.user = findUser[0]
         next()
     } catch (error) {
         return res.status(401).json({

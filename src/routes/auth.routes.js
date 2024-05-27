@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, deleteUser, editUser, listUsers, login } from "../controller/userController.js";
+import { createUser, deleteUser, editUser, listUsers, login, revalidateSession } from "../controller/userController.js";
 import { body, param } from "express-validator";
 import { validationErrorResponse } from "../middlewares/validations.js";
 import { validateJWT } from "../middlewares/validateJWT.js";
@@ -24,6 +24,7 @@ route
         validationErrorResponse,
     ], login)
     // Endpoint Privado
+    .get("/revalidate-session", validateJWT, revalidateSession)
     .get("/list-users", validateJWT,listUsers)
     .put("/edit-user/:id", 
     [
